@@ -14,6 +14,8 @@ import Page from "@/components/Page";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import useUserStore from "@/store/useUserStore";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "@/context/AuthContext";
+import { AxiosError } from "axios";
 
 interface ValuesType {
   email: string,
@@ -29,19 +31,20 @@ interface SnackbarInfosType {
 
 export default function Home() {
   const { userId, setUserId } = useUserStore();
+  const { signIn } = AuthContext();
   const router = useRouter();
   const { login } = useLogin();
   const { t } = useTranslation();
 
   const [snackbarInfos, setSnackbarInfos] = useState<SnackbarInfosType>();
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      router.push("/tasks")
-      setUserId(user)
-    }
-  }, [userId])
+  // useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   if (user) {
+  //     router.push("/tasks")
+  //     setUserId(user)
+  //   }
+  // }, [userId])
 
   const loginSchema = yup.object().shape({
     email: yup
@@ -54,15 +57,23 @@ export default function Home() {
   });
 
   async function onSubmitForm(values: ValuesType, actions: FormikHelpers<ValuesType>) {
-    const resp = await login(values);
-    if (resp?.success) {
-      router.push("/tasks");
-    } else {
+    try {
+      await signIn({ email: values.email, password: values.password });
+    } catch (e) {
+      const err = e as AxiosError;
+      let msg = "";
+      if (err.status == 404) {
+        msg = "Usuário ou senha incorretos";
+      } else {
+        msg = "Erro de servidor. Tente novamente mais tarde";
+      }
+      console.log(e);
+
       setSnackbarInfos({
-        message: resp?.error,
+        message: msg,
         severity: "error",
         open: true
-      })
+      });
     }
   }
 

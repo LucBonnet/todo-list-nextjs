@@ -13,6 +13,7 @@ import ModalTask from '@/components/ModalTask';
 import { ModalHandles } from '@/types/modal';
 import { useTranslation } from 'react-i18next';
 import { GetServerSideProps } from 'next';
+import { AuthContext } from '@/context/AuthContext';
 
 export default function Home() {
   const { userId, setUserId } = useUserStore();
@@ -20,13 +21,15 @@ export default function Home() {
   const modalRef = useRef<ModalHandles>(null);
   const [updateInitialValues, setUpdateInitialValues] = useState<{ id: string, title: string }>();
 
+  const { user } = AuthContext();
+
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (!userId) {
-      router.push("/");
-    }
-  }, [userId]);
+  // useEffect(() => {
+  //   if (!userId) {
+  //     router.push("/");
+  //   }
+  // }, [userId]);
 
   const { data, deleteTask, toggleTask } = useTask(userId);
 
@@ -85,6 +88,9 @@ export default function Home() {
               </TableBody>
             </Table>
           </TableContainer>
+          <Typography suppressHydrationWarning={true}>
+            {user ? user?.name : ""}
+          </Typography>
         </Box>
         <ModalTask
           initialValues={updateInitialValues}

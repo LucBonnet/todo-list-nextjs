@@ -1,4 +1,4 @@
-import api from "@/services/api";
+import { apiToken as api } from "@/services/api";
 import { TaskType } from "@/types/task";
 import useSWR from "swr";
 
