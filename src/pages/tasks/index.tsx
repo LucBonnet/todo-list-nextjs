@@ -10,8 +10,9 @@ import { Add, Delete, Edit } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import ModalTask from '@/components/ModalTask';
-import { ModalHandles } from '@/types/modalTask';
+import { ModalHandles } from '@/types/modal';
 import { useTranslation } from 'react-i18next';
+import { GetServerSideProps } from 'next';
 
 export default function Home() {
   const { userId, setUserId } = useUserStore();
