@@ -1,3 +1,4 @@
+import { AuthContext } from '@/context/AuthContext';
 import useLogin from '@/hooks/useLogin';
 import { AccountCircle, Logout } from '@mui/icons-material';
 import { Menu, MenuItem, SxProps, Typography } from '@mui/material';
@@ -23,6 +24,7 @@ function ConfigMenu(props: any, ref: any) {
   const router = useRouter();
 
   const { logout } = useLogin();
+  const { signOut } = AuthContext();
 
   const { t } = useTranslation();
 
@@ -51,7 +53,7 @@ function ConfigMenu(props: any, ref: any) {
           {t("tlProfile")}
         </Typography>
       </MenuItem>
-      <MenuItem sx={menuItemStyle} onClick={() => { logout(); router.push("/") }}>
+      <MenuItem sx={menuItemStyle} onClick={() => { signOut() }}>
         <Logout />
         <Typography>
           {t("lblExit")}
