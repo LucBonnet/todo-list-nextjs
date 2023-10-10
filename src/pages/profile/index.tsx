@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
 import Page from '@/components/Page';
 import TopBar from '@/components/TopBar';
@@ -8,21 +9,10 @@ import UserForm from '@/components/UserForm';
 import useUser from '@/hooks/useUser';
 import useUserStore from '@/store/useUserStore';
 
+function Profile() {
+  const { user } = useUserStore();
 
-function Register() {
-  const router = useRouter();
-  const { userId, setUserId } = useUserStore();
-
-
-  useEffect(() => {
-    if (!userId) {
-      const user = localStorage.getItem("user");
-      if (user) setUserId(user)
-      else router.push("/");
-    }
-  }, [userId]);
-
-  const { data } = useUser(userId);
+  const { data } = useUser();
 
   const initialValues = {
     name: data?.name || "",
@@ -43,4 +33,21 @@ function Register() {
   );
 }
 
-export default Register;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['nexttodo.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}
+
+export default Profile;

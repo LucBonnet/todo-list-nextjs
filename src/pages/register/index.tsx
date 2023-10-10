@@ -15,19 +15,6 @@ function Register() {
         <Box sx={{ width: "clamp(400px, 50%, 500px)" }}>
           <UserForm />
         </Box>
-        {/* <Snackbar
-          open={snackbarInfos?.open}
-          autoHideDuration={3000}
-          onClose={() => setSnackbarInfos({ message: snackbarInfos?.message, severity: snackbarInfos?.severity, open: false })}
-        >
-          <Alert
-            onClose={() => setSnackbarInfos({ message: snackbarInfos?.message, severity: snackbarInfos?.severity, open: false })}
-            severity={snackbarInfos?.severity}
-            sx={{ width: '100%' }}
-          >
-            {snackbarInfos?.message}
-          </Alert>
-        </Snackbar> */}
       </Page >
     </>
   );

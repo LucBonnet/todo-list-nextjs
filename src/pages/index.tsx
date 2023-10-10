@@ -16,6 +16,8 @@ import useUserStore from "@/store/useUserStore";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "@/context/AuthContext";
 import { AxiosError } from "axios";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
 interface ValuesType {
   email: string,
@@ -30,21 +32,11 @@ interface SnackbarInfosType {
 }
 
 export default function Home() {
-  const { userId, setUserId } = useUserStore();
   const { signIn } = AuthContext();
   const router = useRouter();
-  const { login } = useLogin();
   const { t } = useTranslation();
 
   const [snackbarInfos, setSnackbarInfos] = useState<SnackbarInfosType>();
-
-  // useEffect(() => {
-  //   const user = localStorage.getItem("user");
-  //   if (user) {
-  //     router.push("/tasks")
-  //     setUserId(user)
-  //   }
-  // }, [userId])
 
   const loginSchema = yup.object().shape({
     email: yup
@@ -62,7 +54,7 @@ export default function Home() {
     } catch (e) {
       const err = e as AxiosError;
       let msg = "";
-      if (err.status == 404) {
+      if (err.status == 400) {
         msg = "Usuário ou senha incorretos";
       } else {
         msg = "Erro de servidor. Tente novamente mais tarde";
@@ -138,4 +130,21 @@ export default function Home() {
       </Page>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['nexttodo.token']: token } = parseCookies(ctx);
+
+  if (token) {
+    return {
+      redirect: {
+        destination: '/tasks',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
 }

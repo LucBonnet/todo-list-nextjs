@@ -8,8 +8,8 @@ import useLangStore from "@/store/useLangStore";
 import { ThemeModeType } from "@/types/theme";
 import { LangType } from "@/types/lang";
 import { useRouter } from "next/router";
-import useLogin from "@/hooks/useLogin";
 import ConfigMenu, { ModalHandles } from "./ConfigMenu";
+import { AuthContext } from "@/context/AuthContext";
 
 interface PropsType {
   config?: boolean,

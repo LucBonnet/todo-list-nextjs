@@ -14,10 +14,9 @@ import { ModalHandles } from '@/types/modal';
 import { useTranslation } from 'react-i18next';
 import { GetServerSideProps } from 'next';
 import { AuthContext } from '@/context/AuthContext';
+import { parseCookies } from 'nookies';
 
 export default function Home() {
-  const { userId, setUserId } = useUserStore();
-  const router = useRouter();
   const modalRef = useRef<ModalHandles>(null);
   const [updateInitialValues, setUpdateInitialValues] = useState<{ id: string, title: string }>();
 
@@ -25,13 +24,7 @@ export default function Home() {
 
   const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   if (!userId) {
-  //     router.push("/");
-  //   }
-  // }, [userId]);
-
-  const { data, deleteTask, toggleTask } = useTask(userId);
+  const { data, deleteTask, toggleTask } = useTask();
 
   function handleOpenCreateModal() {
     setUpdateInitialValues(undefined);
@@ -88,9 +81,6 @@ export default function Home() {
               </TableBody>
             </Table>
           </TableContainer>
-          <Typography suppressHydrationWarning={true}>
-            {user ? user?.name : ""}
-          </Typography>
         </Box>
         <ModalTask
           initialValues={updateInitialValues}
@@ -99,4 +89,21 @@ export default function Home() {
       </Page>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['nexttodo.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
 }

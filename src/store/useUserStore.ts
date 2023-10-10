@@ -1,21 +1,26 @@
 import { create } from "zustand";
 
+interface IUser {
+  id: string,
+  name: string,
+  email: string,
+}
 interface UserStoreType {
-  userId: string;
-  setUserId: (userId: string) => void;
+  user: IUser | null;
+  setUser: (user: IUser) => void;
 }
 
-function setUserId(set: any, userId: string) {
+function setUserId(set: any, user: IUser) {
   set(() => {
     return {
-      userId
+      user
     };
   })
 }
 
 const useUserStore = create<UserStoreType>((set) => ({
-  userId: "",
-  setUserId: (userId: string) => setUserId(set, userId)
+  user: null,
+  setUser: (user: IUser) => setUserId(set, user)
 }));
 
 export default useUserStore
