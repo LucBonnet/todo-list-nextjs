@@ -2,9 +2,9 @@ import { apiToken as api } from "@/services/api";
 import { TaskType } from "@/types/task";
 import useSWR from "swr";
 
-const useTask = (userId: string) => {
+const useTask = () => {
   const fetcher = (url: string) => api.get(url).then((resp) => resp.data);
-  const { data, isLoading, mutate } = useSWR<TaskType[]>(`/tasks/${userId}`, fetcher);
+  const { data, isLoading, mutate } = useSWR<TaskType[]>(`/tasks`, fetcher);
 
   const deleteTask = async (taskId: string) => {
     await api.delete(`/tasks/${taskId}`);

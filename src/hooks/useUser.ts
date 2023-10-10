@@ -11,10 +11,9 @@ interface ValuesType {
   confirmPassword: string,
 }
 
-const useUser = (userId = "") => {
-  const { userId: userIdStore } = useUserStore();
+const useUser = () => {
   const fetcher = (url: string) => api.get(url).then((resp) => resp.data);
-  const { data, isLoading, mutate } = useSWR<UserType>(`/users/${userId}`, fetcher);
+  const { data, isLoading, mutate } = useSWR<UserType>(`/users/profile`, fetcher);
 
   const createUser = async (values: ValuesType) => {
     const user = {
@@ -54,7 +53,7 @@ const useUser = (userId = "") => {
 
   const deleteUser = async () => {
     try {
-      await api.delete(`/users/${userIdStore}`);
+      await api.delete(`/users`);
       mutate();
       return { success: true, error: "" };
     } catch (e) {
