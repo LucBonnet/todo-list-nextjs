@@ -12,6 +12,7 @@ import * as yup from "yup";
 import ModalMessage, { MessageType } from './ModalMessages';
 import { ModalHandles } from '@/types/modal';
 import { useRouter } from 'next/router';
+import { AuthContext } from '@/context/AuthContext';
 
 interface ValuesType {
   name: string,
@@ -32,7 +33,7 @@ const resetedForm = {
 }
 
 function UserForm(props: PropsType) {
-  const { userId, setUserId } = useUserStore();
+  const { signOut } = AuthContext();
   const { createUser, updateUser, deleteUser } = useUser();
   const router = useRouter();
 
@@ -87,7 +88,7 @@ function UserForm(props: PropsType) {
         actions.resetForm();
       }
     } else {
-      const resp = await updateUser(userId, values);
+      const resp = await updateUser(values);
       if (!resp.success) {
         setMessageInfos({ message: resp.error, severity: "error" });
         modalRef.current?.openModal();
@@ -105,8 +106,7 @@ function UserForm(props: PropsType) {
       setMessageInfos({ message: resp.error, severity: "error" });
       modalRef.current?.openModal();
     } else {
-      setUserId("");
-      localStorage.removeItem("user");
+      signOut();
       router.push("/");
     }
   }

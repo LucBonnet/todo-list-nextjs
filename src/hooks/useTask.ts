@@ -13,7 +13,6 @@ const useTask = () => {
 
   const updateTask = async (taskID: string, taskTitle: string) => {
     const resp = await api.put(`/tasks/${taskID}`, { title: taskTitle });
-    console.log(resp)
     mutate();
   }
 

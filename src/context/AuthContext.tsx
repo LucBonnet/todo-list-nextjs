@@ -3,7 +3,6 @@ import { create, } from "zustand";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 
 import api, { apiToken } from "@/services/api";
-import useUserStore from '@/store/useUserStore';
 
 interface UserType {
   name: string,
@@ -25,9 +24,13 @@ interface SignInData {
 async function signIn(set: any, data: SignInData) {
   const { email, password } = data;
   const responseData = await api.post(`/users/signin`, { email, password }).then((res) => res.data);
-  const { token, user } = responseData;
+  const { token, user, refreshToken } = responseData;
 
   setCookie(undefined, 'nexttodo.token', token, {
+    maxAge: 20 // 20 seconds
+  });
+
+  setCookie(undefined, 'nexttodo.refreshToken', refreshToken.id, {
     maxAge: 60 * 60 * 1 // 1 hour
   });
 
@@ -45,6 +48,7 @@ async function signIn(set: any, data: SignInData) {
 
 function signout(set: any) {
   destroyCookie(undefined, 'nexttodo.token');
+  destroyCookie(undefined, 'nexttodo.refreshToken');
 
   set(() => {
     return {
@@ -60,7 +64,7 @@ function autoAuth(set: any) {
   const { 'nexttodo.token': token } = parseCookies();
 
   if (token) {
-    api.post(`/users/info`, { token })
+    api.get(`/users/profile`)
       .then(resp => resp.data)
       .then((data) => {
         const { name, email } = data;

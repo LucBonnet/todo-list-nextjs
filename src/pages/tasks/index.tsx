@@ -20,8 +20,6 @@ export default function Home() {
   const modalRef = useRef<ModalHandles>(null);
   const [updateInitialValues, setUpdateInitialValues] = useState<{ id: string, title: string }>();
 
-  const { user } = AuthContext();
-
   const { t } = useTranslation();
 
   const { data, deleteTask, toggleTask } = useTask();

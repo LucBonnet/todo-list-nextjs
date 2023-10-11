@@ -1,4 +1,4 @@
-import api from "@/services/api";
+import api, { apiToken } from "@/services/api";
 import useUserStore from "@/store/useUserStore";
 import { UserType } from "@/types/user";
 import { AxiosError } from "axios";
@@ -12,7 +12,7 @@ interface ValuesType {
 }
 
 const useUser = () => {
-  const fetcher = (url: string) => api.get(url).then((resp) => resp.data);
+  const fetcher = (url: string) => apiToken.get(url).then((resp) => resp.data);
   const { data, isLoading, mutate } = useSWR<UserType>(`/users/profile`, fetcher);
 
   const createUser = async (values: ValuesType) => {
@@ -34,15 +34,15 @@ const useUser = () => {
     }
   }
 
-  const updateUser = async (userId: string, values: ValuesType) => {
+  const updateUser = async (values: ValuesType) => {
     const user = {
       name: values.name,
       email: values.email,
       password: values.password
     }
-    console.log(user)
+
     try {
-      await api.put(`/users/${userId}`, user);
+      await apiToken.put(`/users`, user);
       mutate();
       return { success: true, error: "" };
     } catch (e) {
@@ -53,7 +53,7 @@ const useUser = () => {
 
   const deleteUser = async () => {
     try {
-      await api.delete(`/users`);
+      await apiToken.delete(`/users`);
       mutate();
       return { success: true, error: "" };
     } catch (e) {

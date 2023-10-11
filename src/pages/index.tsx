@@ -53,13 +53,13 @@ export default function Home() {
       await signIn({ email: values.email, password: values.password });
     } catch (e) {
       const err = e as AxiosError;
+
       let msg = "";
-      if (err.status == 400) {
+      if (err.response?.status == 400) {
         msg = "Usuário ou senha incorretos";
       } else {
         msg = "Erro de servidor. Tente novamente mais tarde";
       }
-      console.log(e);
 
       setSnackbarInfos({
         message: msg,
