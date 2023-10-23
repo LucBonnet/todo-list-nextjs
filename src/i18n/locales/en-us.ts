@@ -1,4 +1,4 @@
-export default {
+const en = {
   translation: {
     "lblEmail": "Email",
     "lblPassword": "Password",
@@ -22,3 +22,5 @@ export default {
     "lblExit": "Exit",
   }
 }
+
+export default en;

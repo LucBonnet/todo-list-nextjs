@@ -1,4 +1,4 @@
-export default {
+const ptbr = {
   translation: {
     "lblEmail": "E-mail",
     "lblPassword": "Senha",
@@ -22,3 +22,5 @@ export default {
     "lblExit": "Sair",
   }
 }
+
+export default ptbr;

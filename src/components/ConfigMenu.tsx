@@ -1,5 +1,4 @@
 import { AuthContext } from '@/context/AuthContext';
-import useLogin from '@/hooks/useLogin';
 import { AccountCircle, Logout } from '@mui/icons-material';
 import { Menu, MenuItem, SxProps, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -22,8 +21,6 @@ function ConfigMenu(props: any, ref: any) {
   const [anchorEl, setAnchorEl] = useState<Element>();
 
   const router = useRouter();
-
-  const { logout } = useLogin();
   const { signOut } = AuthContext();
 
   const { t } = useTranslation();
