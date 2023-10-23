@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import * as yup from "yup";
 
-import useLogin from "@/hooks/useLogin";
 import CustomTextField from "@/components/CustomTextField";
 import PasswordTextField from "@/components/PasswordTextField";
 import Form from "@/components/Form";

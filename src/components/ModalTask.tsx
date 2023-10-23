@@ -8,8 +8,6 @@ import * as yup from "yup";
 import Form from "@/components/Form";
 import CustomTextField from './CustomTextField';
 import useTask from '@/hooks/useTask';
-import useUserStore from '@/store/useUserStore';
-
 interface ValuesType {
   title: string,
 }
@@ -22,10 +20,9 @@ interface PropsType {
 }
 
 function ModalTask(props: PropsType, ref: any) {
-  const { userId } = useUserStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { createTask, updateTask } = useTask(userId);
+  const { createTask, updateTask } = useTask();
 
   const { t } = useTranslation();
 
@@ -49,7 +46,7 @@ function ModalTask(props: PropsType, ref: any) {
 
   async function handleSubmit(values: ValuesType, actions: FormikHelpers<ValuesType>) {
     if (!update) {
-      await createTask(values.title, userId);
+      await createTask(values.title);
     } else {
       const taskId = props.initialValues?.id;
       if (taskId)

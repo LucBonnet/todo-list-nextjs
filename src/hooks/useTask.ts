@@ -3,6 +3,7 @@ import { TaskType } from "@/types/task";
 import useSWR from "swr";
 
 const useTask = () => {
+
   const fetcher = (url: string) => api.get(url).then((resp) => resp.data);
   const { data, isLoading, mutate } = useSWR<TaskType[]>(`/tasks`, fetcher);
 
@@ -21,10 +22,9 @@ const useTask = () => {
     mutate();
   }
 
-  const createTask = async (taskTitle: string, userID: string) => {
+  const createTask = async (taskTitle: string) => {
     await api.post(`/tasks`, {
       title: taskTitle,
-      user_id: userID
     });
     mutate();
   }
