@@ -72,7 +72,7 @@ export default function Home() {
     <>
       <TopBar />
       <Page sx={{ justifyContent: "center" }}>
-        <Box sx={{ width: "clamp(400px, 50%, 500px)" }}>
+        <Box sx={{ width: "min(500px, 100%)" }}>
           <Formik
             initialValues={{ email: "", password: "", rememberLogin: false }}
             validationSchema={loginSchema}

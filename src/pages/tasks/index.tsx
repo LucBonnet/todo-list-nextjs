@@ -2,18 +2,15 @@ import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 import TopBar from "@/components/TopBar";
 import Page from "@/components/Page";
-import { FormLabel, Table, TableBody, TableCell, Checkbox, TableContainer, TableHead, TableRow, IconButton, Button, Box, Typography, SxProps } from '@mui/material';
+import { FormLabel, Table, TableBody, TableCell, Checkbox, TableContainer, TableRow, IconButton, Button, Box, Typography, SxProps } from '@mui/material';
 import { TaskType } from '@/types/task';
 import useTask from '@/hooks/useTask';
-import useUserStore from '@/store/useUserStore';
 import { Add, Delete, Edit } from '@mui/icons-material';
-import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
 import ModalTask from '@/components/ModalTask';
 import { ModalHandles } from '@/types/modal';
 import { useTranslation } from 'react-i18next';
 import { GetServerSideProps } from 'next';
-import { AuthContext } from '@/context/AuthContext';
 import { parseCookies } from 'nookies';
 
 export default function Home() {
@@ -43,7 +40,7 @@ export default function Home() {
     <>
       <TopBar config />
       <Page sx={{ paddingTop: "5em" }}>
-        <Box sx={{ width: "50%" }}>
+        <Box sx={{ width: "min(700px, 100%)" }}>
           <Button onClick={handleOpenCreateModal} variant='contained' >
             <Add /> {t("btnAdd")}
           </Button>
@@ -51,7 +48,7 @@ export default function Home() {
             <Table>
               <TableBody>
                 {data.map((task: TaskType) => (
-                  <TableRow key={task.id}>
+                  <TableRow key={task.id} sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
                     <TableCell>
                       <Checkbox
                         id={`taskIsCompleted${task.id}`}
@@ -59,7 +56,7 @@ export default function Home() {
                         onChange={() => toggleTask(task.id)}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ flex: 1, display: "flex", alignItems: "center" }}>
                       <FormLabel htmlFor={`taskIsCompleted${task.id}`}>
                         <Typography sx={task.checked ? styleTaskChecked : { color: "text.primary" }}>
                           {task.title}

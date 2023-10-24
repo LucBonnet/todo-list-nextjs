@@ -1,5 +1,4 @@
 import api, { apiToken } from "@/services/api";
-import useUserStore from "@/store/useUserStore";
 import { UserType } from "@/types/user";
 import { AxiosError } from "axios";
 import useSWR from "swr";

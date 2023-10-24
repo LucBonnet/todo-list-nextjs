@@ -7,11 +7,8 @@ import Page from '@/components/Page';
 import TopBar from '@/components/TopBar';
 import UserForm from '@/components/UserForm';
 import useUser from '@/hooks/useUser';
-import useUserStore from '@/store/useUserStore';
 
 function Profile() {
-  const { user } = useUserStore();
-
   const { data } = useUser();
 
   const initialValues = {
@@ -25,7 +22,7 @@ function Profile() {
     <>
       <TopBar config back />
       <Page sx={{ justifyContent: "center" }}>
-        <Box sx={{ width: "clamp(400px, 50%, 500px)" }}>
+        <Box sx={{ width: "min(700px, 100%)" }}>
           <UserForm initialValues={initialValues} />
         </Box>
       </Page >
