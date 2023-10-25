@@ -5,7 +5,7 @@ import { parseCookies, destroyCookie } from "nookies";
 const { 'nexttodo.token': token } = parseCookies();
 
 const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
 const apiToken = api;
